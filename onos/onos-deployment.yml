@@ -1,0 +1,36 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+    name: fabric-controller
+spec:
+    replicas: 1
+    template:
+        metadata:
+            labels:
+                app: fabric-controller
+        spec:
+            containers:
+            - name: controller
+              image: onosproject/onos:1.10.0
+              env:
+              - name: ONOS_APPS
+                value: "drivers,openflow-base,netcfghostprovider,hostprovider,segmentrouting,netcfglinksprovider,vrouter"
+              - name: JAVA_TOOL_OPTIONS
+                value: "-Dfile.encoding=UTF8 -Donos.cluster.metadata.uri=http://cluster-config-service/config.json"
+              ports:
+              - name: openflow
+                containerPort: 6653
+              - name: ui
+                containerPort: 8181
+              - name: cli
+                containerPort: 8101
+              - name: ovsdb
+                containerPort: 6640
+              - name: cluster
+                containerPort: 9876
+              livenessProbe:
+                  httpGet:
+                      path: /onos/ui
+                      port: 8181
+                  initialDelaySeconds: 60
+                  periodSeconds: 15

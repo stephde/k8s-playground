@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: fabric-controller
+spec:
+    selector:
+        app: fabric-controller
+    ports:
+        - name: ui
+          protocol: TCP
+          port: 8181
+          targetPort: 8181
+        - name: cli
+          protocol: TCP
+          port: 8101
+          targetPort: 8101
+        - name: openflow
+          protocol: TCP
+          port: 6653
+          targetPort: 6653
