@@ -12,7 +12,8 @@ Vagrant.configure(2) do |config|
       if i == 1
         s.vm.provision :shell, inline: "PYTHONUNBUFFERED=1 ansible-playbook /vagrant/ansible/k8s-master.yml -c local"
       else
-        s.vm.provision :shell, inline: "PYTHONUNBUFFERED=1 ansible-playbook /vagrant/ansible/k8s-worker.yml -c local"
+        joinCommand = system("vagrant ssh k8s1 -c 'sudo kubeadm token create --print-join-command'")
+        s.vm.provision :shell, inline: "PYTHONUNBUFFERED=1 ansible-playbook /vagrant/ansible/k8s-worker.yml -c local --extra-vars joinCommand=#{joinCommand}"
       end
       s.vm.network "private_network", ip: "172.42.42.#{i}", netmask: "255.255.255.0",
         auto_config: true,
