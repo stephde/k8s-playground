@@ -78,6 +78,17 @@
   tags:
     - k8s
 
+- name: Ensure JSONPath.sh
+  become: yes
+  copy:
+    src: files/JSONPath.sh
+    dest: /usr/bin/JSONPath.sh
+    mode: 0755
+    owner: ubuntu
+    group: ubuntu
+  tags:
+    - k8s
+
 - name: Ensure Docker Group
   group:
     name: docker

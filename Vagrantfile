@@ -23,6 +23,12 @@ Vagrant.configure(2) do |config|
         v.memory = 2048
         v.gui = false
       end
+      if i != 1
+        # Add a route back to the kubernetes API service
+        s.vm.provision :shell,
+        run: "always",
+        inline: "echo Setting Cluster Route; clustip=$(kubectl --kubeconfig=admin.conf get svc -o json | JSONPath.sh '$.items[?(@.metadata.name=kubernetes)]..clusterIP' -b); node=$(kubectl --kubeconfig=admin.conf get endpoints -o json | JSONPath.sh '$.items[?(@.metadata.name=kubernetes)]..ip' -b); ip route add $clustip/32 via $node || true"
+      end
     end
   end
 
