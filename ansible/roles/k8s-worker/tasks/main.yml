@@ -18,4 +18,5 @@
 
 - name: Join Kubernetes Cluster
   become: yes
-  command: {{ joinCommand }}
+  shell: $(cat /vagrant/joinCommand.txt)
+  # shell: "$(cat /tmp/joinCommand.txt | jq '.stdout_lines[0]' | sed 's/"//g')"

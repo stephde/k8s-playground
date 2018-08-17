@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Mark Clarkson's JSONPath.sh
+# https://github.com/mclarkson/JSONPath.sh
+# Apache 2 / MIT license
+
 # ---------------------------------------------------------------------------
 # GLOBALS
 # ---------------------------------------------------------------------------
@@ -73,7 +77,7 @@ main() {
         json | brief
     fi
 
-  fi
+  fi 
 }
 
 # ---------------------------------------------------------------------------
@@ -392,7 +396,7 @@ create_filter() {
             comma=","
       ;;
     esac
-    i=i+1
+    i=i+1 
   done
 
   [[ -z $FILTER ]] && FILTER="$query[],]"
@@ -415,7 +419,7 @@ parse_array () {
       do
         parse_value "$1" "$index"
         index=$((index+1))
-        ary="$ary""$value"
+        ary="$ary""$value" 
         read -r token
         case "$token" in
           ']') break ;;
@@ -439,7 +443,7 @@ parse_object () {
   local obj=''
   read -r token
   case "$token" in
-    '}')
+    '}') 
          ;;
     *)
       while :
@@ -455,7 +459,7 @@ parse_object () {
         esac
         read -r token
         parse_value "$1" "$key"
-        obj="$obj$key:$value"
+        obj="$obj$key:$value"        
         read -r token
         case "$token" in
           '}') break ;;
@@ -505,7 +509,7 @@ flatten() {
 
   if [[ $FLATTEN -eq 1 ]]; then
     cat >"$STDINFILE2"
-
+    
     highest=9999
 
     while read line; do
@@ -530,11 +534,11 @@ flatten() {
 
       prevpath=("${path[@]}")
     done <"$STDINFILE2"
-
+    
     if [[ $highest -gt 0 ]]; then
       sed -r 's/\[(([0-9]+|"[^"]+")[],]){'$((highest))'}(.*)/[\3/' \
         "$STDINFILE2"
-    else
+    else 
       cat "$STDINFILE2"
     fi
   else
