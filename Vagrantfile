@@ -12,9 +12,7 @@ Vagrant.configure(2) do |config|
       if Vagrant.has_plugin?("vagrant-vbguest")
         config.vbguest.auto_update = false
       end
-      s.vm.network "private_network", ip: "172.42.42.#{i+10}", netmask: "255.255.255.0",
-                   auto_config: true,
-                   virtualbox__intnet: "k8s-net"
+      s.vm.network "private_network", type: :dhcp 
 
       s.vm.provider "virtualbox" do |v|
         v.name = "k8s#{i}"

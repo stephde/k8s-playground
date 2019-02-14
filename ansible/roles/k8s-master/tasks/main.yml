@@ -2,7 +2,11 @@
 
 - name: Ensure kubeadm initialization
   become: yes
-  shell: "[ ! -f ~/kube_init.log ] && kubeadm init --token 2f1a31.00f66dec74fd53f3 --apiserver-advertise-address=172.42.42.11 > ~/kube_init.log || echo Kubernetes already initialized"
+  shell: |
+      ifconfig enp0s8 | grep Mask | awk '{print $2}' | cut -f2 -d: > ~/.ipaddr
+      IPADRR=cat ~/.ipaddr
+      echo This VM has IP address ${IPADDR}
+      [ ! -f ~/kube_init.log ] && kubeadm init --token 2f1a31.00f66dec74fd53f3 --apiserver-advertise-address=${IPADDR} > ~/kube_init.log || echo Kubernetes already initialized
   register: kube_init_status
   tags:
     - k8s
