@@ -45,6 +45,7 @@ Vagrant.configure(2) do |config|
         s.vm.network "forwarded_port", guest: 30399, host: "30399"
         s.vm.network "forwarded_port", guest: 1234, host: "11234"
         s.vm.network "forwarded_port", guest: 5000, host: "5000"
+        s.vm.network "forwarded_port", guest: 6443, host: "6443"
       elsif s.vm.hostname == "k8s2"
         s.vm.network "forwarded_port", guest: 443, host: "4432"
         s.vm.network "forwarded_port", guest: 80, host: "2800"
